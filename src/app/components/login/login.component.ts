@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -13,7 +14,7 @@ export class LoginComponent {
 
   // to access that service into componet we have to inject..,,,,we have two forms email,password so we have import reactive form in app.modules .ts
   
-  constructor(private authservice: AuthService){
+  constructor(private authservice: AuthService , private router:Router){
     this.loginForm= new FormGroup({
       email: new FormControl(),
       password: new FormControl(),
@@ -23,7 +24,7 @@ export class LoginComponent {
     this.authservice.doLogin(this.loginForm.value).subscribe(
       value=>{
         localStorage.setItem("token",value.token);
-        alert("success");
+        this.router.navigateByUrl("/dashboard");
       },
       error=>{
         alert("failed");
